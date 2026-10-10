@@ -187,7 +187,7 @@ export const process = {
   ],
   lesson: {
     label: 'What I got wrong first',
-    text: 'Working solo. The best work on this page was a team win, and that took me a while to learn.',
+    text: 'Working solo. I used to think owning every piece myself was the fastest way to ship. The best work on this page came from teams: regulators who knew the rules inside out, developers who caught what I missed, and caseworkers who told us what actually broke. Now I build the team’s shared understanding before I build the system.',
   },
 }
 
