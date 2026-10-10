@@ -24,11 +24,11 @@ export function Nav() {
           : 'border-b border-transparent'
       }`}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-4">
-        <a href="#top" className="font-display text-[0.95rem] font-medium tracking-[-0.02em] text-fg">
+      <div className="container-page flex h-16 items-center justify-between gap-3 xs:gap-4">
+        <a href="#top" className="whitespace-nowrap font-display text-[0.95rem] max-[350px]:text-[0.82rem] font-medium tracking-[-0.02em] text-fg">
           {person.name}
         </a>
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <nav aria-label="Primary">
             <ul className="flex items-center">
               {nav.map((l) => {
@@ -38,14 +38,14 @@ export function Nav() {
                     <a
                       href={l.href}
                       aria-current={isActive ? 'true' : undefined}
-                      className={`relative rounded-full px-2.5 py-1.5 text-[0.8125rem] transition-colors sm:px-3 sm:text-sm ${
+                      className={`relative rounded-full px-1.5 py-1.5 text-[0.78rem] transition-colors max-[350px]:px-1 max-[350px]:text-[0.72rem] xs:px-2.5 xs:text-[0.8125rem] sm:px-3 sm:text-sm ${
                         isActive ? 'text-fg' : 'text-muted hover:text-fg'
                       }`}
                     >
                       {l.label}
                       <span
                         aria-hidden="true"
-                        className={`absolute inset-x-3 -bottom-px h-px origin-left bg-gradient-to-r from-accent-a to-accent-b transition-transform duration-300 ${
+                        className={`absolute inset-x-1.5 -bottom-px xs:inset-x-3 h-px origin-left bg-gradient-to-r from-accent-a to-accent-b transition-transform duration-300 ${
                           isActive ? 'scale-x-100' : 'scale-x-0'
                         }`}
                       />
