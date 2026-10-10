@@ -78,6 +78,7 @@ export type Project = {
 export const person = {
   name: 'Sachin Singh',
   email: 'sachinsingh018@gmail.com',
+  photoAlt: 'Sachin Singh',
   jobTitle: 'Forward Deployed Engineer',
   employer: 'Ignyte Group',
   url: 'https://sachinsingh018.github.io/',

@@ -3,6 +3,7 @@ import { ArrowDownRight } from 'lucide-react'
 import { hero } from '../content/site'
 import { HeroBackdrop } from './HeroBackdrop'
 import { Magnetic } from './ui/Magnetic'
+import { Portrait } from './ui/Portrait'
 import { keepHyphens } from '../lib/text'
 
 const delay = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
@@ -19,9 +20,18 @@ export function Hero() {
       <div aria-hidden="true" className="hero-scrim pointer-events-none absolute inset-0 z-[1]" />
 
       <div className="container-page relative z-10">
-        <p className="kicker rise" style={delay(40)}>
-          {hero.kicker}
-        </p>
+        {/* Negative vertical margins let the avatar overhang the eyebrow line, so the row keeps the
+            text's height and nothing below it moves. */}
+        <div className="rise flex items-center gap-3" style={delay(40)}>
+          <Portrait
+            widths={[112, 168]}
+            sizes="(min-width: 768px) 56px, 48px"
+            size={56}
+            loading="eager"
+            className="-my-4 h-12 w-12 rounded-full border border-line md:-my-5 md:h-14 md:w-14"
+          />
+          <p className="kicker m-0">{hero.kicker}</p>
+        </div>
         <h1
           id="hero-h"
           className="display rise mt-5 max-w-[19ch] text-balance text-[clamp(2.6rem,1.1rem+5.4vw,6rem)]"
