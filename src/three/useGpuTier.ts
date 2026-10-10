@@ -27,6 +27,9 @@ function decide(tier: number, isMobile: boolean): Quality {
 
 /** Detects the GPU tier once per visit. Benchmarks are self-hosted in /detect-gpu. */
 export function loadQuality(): Promise<Quality> {
+  // ?gpu=0..3 forces a tier. Used to render the poster and social image at full quality.
+  const forced = new URLSearchParams(window.location.search).get('gpu')
+  if (forced !== null && /^[0-3]$/.test(forced)) return Promise.resolve(decide(Number(forced), false))
   if (!cached) {
     cached = getGPUTier({ benchmarksURL: '/detect-gpu' })
       .then((r) => decide(r.tier, Boolean(r.isMobile)))

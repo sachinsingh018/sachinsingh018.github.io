@@ -4,21 +4,22 @@
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 @custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
 
-/* Metric-matched fallbacks so the swap from system font to web font does not shift layout. */
+/* Metric-matched fallbacks so the swap from system font to web font does not shift layout.
+   Values computed with fontTools from the latin woff2 files against Arial and Courier New. */
 @font-face {
   font-family: 'Geist Fallback';
   src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
-  size-adjust: 104.4%;
+  size-adjust: 108.6%;
   ascent-override: 92.5%;
-  descent-override: 21.6%;
+  descent-override: 27.1%;
   line-gap-override: 0%;
 }
 @font-face {
   font-family: 'Inter Fallback';
   src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
-  size-adjust: 107.1%;
-  ascent-override: 90.4%;
-  descent-override: 22.5%;
+  size-adjust: 109.4%;
+  ascent-override: 88.5%;
+  descent-override: 22%;
   line-gap-override: 0%;
 }
 @font-face {
@@ -423,5 +424,20 @@
   .hero-backdrop-dim {
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 45%, #000 85%);
     mask-image: linear-gradient(90deg, transparent 0%, transparent 45%, #000 85%);
+  }
+}
+/* A still render of the graph, shown on desktop in the dark theme until the canvas has drawn. */
+@media (min-width: 768px) {
+  [data-theme='dark'] .hero-poster {
+    background:
+      url(/hero-poster-sm.webp) center / cover no-repeat,
+      var(--bg);
+  }
+}
+@media (min-width: 1280px) {
+  [data-theme='dark'] .hero-poster {
+    background:
+      url(/hero-poster.webp) center / cover no-repeat,
+      var(--bg);
   }
 }

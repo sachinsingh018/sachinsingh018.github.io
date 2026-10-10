@@ -1,4 +1,5 @@
 import { Component, useEffect, useMemo, type ReactNode, type RefObject } from 'react'
+import { setConsoleFunction } from 'three'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { buildGraph } from './graphData'
@@ -7,6 +8,14 @@ import { useGpuTier } from './useGpuTier'
 import { useTheme } from '../hooks/useTheme'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useMediaQuery } from '../hooks/useMediaQuery'
+
+// R3F 9 still creates a THREE.Clock internally, which three r183+ flags as deprecated on every
+// mount. That warning is about the library, not this site, so filter exactly that one message.
+setConsoleFunction((type, message, ...params) => {
+  if (type === 'warn' && typeof message === 'string' && message.includes('Clock: This module has been deprecated')) return
+  const fn = (console as unknown as Record<string, (...a: unknown[]) => void>)[type] ?? console.log
+  fn(message, ...params)
+})
 
 type Props = {
   liveRef: RefObject<boolean>
