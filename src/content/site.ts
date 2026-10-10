@@ -1,0 +1,368 @@
+/**
+ * All visible copy for the site lives here. Components only lay it out.
+ *
+ * Rules for editing:
+ * - Every number, title and date must trace to the resume (see docs/plan.md, section 1).
+ * - No em dashes anywhere. `npm run build` fails if one slips in.
+ * - Keep it short. The whole page targets 600 to 800 visible words.
+ */
+
+export type Link = { label: string; href: string; external?: boolean }
+
+export type Metric = {
+  value: number
+  /** Decimal places shown while counting up. */
+  decimals?: number
+  prefix?: string
+  suffix?: string
+  label: string
+}
+
+export type CaseStudyId = 'renewal-agent' | 'latency' | 'rag-cache'
+
+export type CaseStudy = {
+  id: CaseStudyId
+  /** Figure label shown above the card, e.g. "FIG 1". */
+  fig: string
+  title: string
+  org: string
+  context: string
+  problem: string
+  result: { value: string; label: string }
+  stack: string[]
+  /** Optional. Only add a line here if it is true and in your own words. */
+  gotWrongFirst?: string
+  size: 'large' | 'small'
+}
+
+export type Engagement = {
+  org: string
+  detail?: string
+  dates: string
+  sentence: string
+  metric: string
+  mark: string
+}
+
+export type Role = {
+  title: string
+  subtitle?: string
+  dates: string
+  engagements?: Engagement[]
+  /** Used when the role has no separate client engagements. */
+  sentence?: string
+  metric?: string
+}
+
+export type Employer = {
+  org: string
+  mark: string
+  roles: Role[]
+}
+
+export type Tool = {
+  name: string
+  /** File name in public/logos without extension. Omit for a text-only chip. */
+  logo?: string
+}
+
+export type Project = {
+  title: string
+  line: string
+  stack: string[]
+  note: string
+  href?: string
+}
+
+export const person = {
+  name: 'Sachin Singh',
+  email: 'sachinsingh018@gmail.com',
+  jobTitle: 'Forward Deployed Engineer',
+  employer: 'Ignyte Group',
+  url: 'https://sachinsingh018.github.io/',
+  linkedin: 'https://www.linkedin.com/in/sac108',
+  github: 'https://github.com/sachinsingh018',
+}
+
+export const meta = {
+  title: 'Sachin Singh, solutions engineer',
+  description:
+    'Solutions engineer and forward deployed engineer. Systems of record for government and healthcare, LLM agents with real guardrails, and the discovery and bids that come before them.',
+}
+
+export const nav: Link[] = [
+  { label: 'Work', href: '#work' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact', href: '#contact' },
+]
+
+export const hero = {
+  kicker: 'Solutions engineer, forward deployed',
+  /** The middle part is rendered with the accent gradient. */
+  headline: { before: 'I build the systems people are ', accent: 'legally required', after: ' to use.' },
+  sub: 'I run discovery with regulators, write the technical side of the bid, then lead the build through go-live. Before that, co-founder and CTO of an AI startup.',
+  primary: { label: 'See the work', href: '#work' },
+  secondary: { label: 'Get in touch', href: '#contact' },
+}
+
+export const impact: Metric[] = [
+  { value: 77, suffix: '%', label: 'of licence renewals auto-processed by agents' },
+  { value: 70, suffix: '%', label: 'less page load time on a state case system' },
+  { value: 10, suffix: 'M+', label: 'records migrated from MySQL to SQL Server' },
+  { value: 1.5, decimals: 1, suffix: 'M+', label: 'practitioners licensed a year on a platform I helped build' },
+]
+
+export const shippedFor = {
+  kicker: 'Shipped for',
+  /**
+   * Typographic wordmarks only. Several of these organisations restrict logo use
+   * (the Massachusetts seal is barred from advertising use by M.G.L. c.264 s.5).
+   */
+  orgs: [
+    { name: 'Commonwealth of Massachusetts', lines: ['Commonwealth of', 'Massachusetts'], style: 'eyebrow' },
+    { name: 'Florida Department of Health', lines: ['Florida', 'Department of Health'], style: 'stack' },
+    { name: 'Rocky Mountain Human Services', lines: ['Rocky Mountain', 'Human Services'], style: 'stack' },
+    { name: 'Kodak', lines: ['Kodak'], style: 'caps' },
+    { name: 'Monster Energy', lines: ['Monster Energy'], style: 'caps' },
+  ] satisfies { name: string; lines: string[]; style: 'eyebrow' | 'stack' | 'caps' }[],
+  note: 'Government and healthcare work via Ignyte Group',
+}
+
+export const work = {
+  kicker: '01 / Work',
+  heading: 'Three systems, shown running.',
+  sub: 'Simplified illustrations of real work. Press play, or step through.',
+  cases: [
+    {
+      id: 'renewal-agent',
+      fig: 'FIG 1',
+      title: 'An agent that is not allowed to say no',
+      org: 'Florida Department of Health',
+      context: 'MQA licensing',
+      problem:
+        'Automate routine licence renewals for 1.5M+ practitioners without ever letting a model deny one.',
+      result: { value: '77%', label: 'of renewals auto-processed' },
+      stack: ['Appian', 'Claude Sonnet 4.5', 'AWS Bedrock', 'JSON Schema'],
+      size: 'large',
+    },
+    {
+      id: 'latency',
+      fig: 'FIG 2',
+      title: 'Finding where the time went',
+      org: 'Massachusetts Administration and Finance',
+      context: 'Legal case management',
+      problem:
+        'Pages were slow across a case system for four judicial appeals boards, and for more than one reason.',
+      result: { value: '70%', label: 'less page load time' },
+      stack: ['Microsoft Graph', 'SQL Server', 'Appian'],
+      size: 'small',
+    },
+    {
+      id: 'rag-cache',
+      fig: 'FIG 3',
+      title: 'Paying for the same answer twice',
+      org: 'Networkqy AI',
+      context: 'Career platform for universities',
+      problem:
+        'Users asked the same questions in different words, and every one was a paid API call.',
+      result: { value: 'Local', label: 'repeat questions served by a self-hosted model' },
+      stack: ['Pinecone', 'Cross-encoder', 'Mistral 7B', 'vLLM'],
+      size: 'small',
+    },
+  ] satisfies CaseStudy[],
+}
+
+export const process = {
+  kicker: '02 / Process',
+  heading: 'From the first workshop to go-live.',
+  sub: 'The person who scoped it is the person who ships it.',
+  stages: [
+    { name: 'Discovery', proof: '12+ regulator sessions' },
+    { name: 'Requirements', proof: '112 traced requirements' },
+    { name: 'Bid and demo', proof: '20+ RFP sections, 2 wins' },
+    { name: 'Build', proof: 'LLM agents in production' },
+    { name: 'Go-live', proof: '30 staff trained' },
+  ],
+  lesson: {
+    label: 'What I got wrong first',
+    text: 'Working solo. The best work on this page was a team win, and that took me a while to learn.',
+  },
+}
+
+export const experience = {
+  kicker: '03 / Experience',
+  heading: 'Where I have worked.',
+  about:
+    'I work where software meets regulation: licensing, appeals boards and health services, where access control, accessibility and audit trails are part of the spec. I like owning the whole arc, from the first shadowing session to stabilisation after go-live. Before consulting I co-founded Networkqy AI and ran its engineering. Appian, Java and Python day to day, with LLM agents in production.',
+  employers: [
+    {
+      org: 'Ignyte Group',
+      mark: 'IG',
+      roles: [
+        {
+          title: 'Forward Deployed Engineer',
+          subtitle: 'Technology Consultant',
+          dates: 'Apr 2025 – Present',
+          engagements: [
+            {
+              org: 'Massachusetts Administration and Finance',
+              detail: 'Legal Case Management System',
+              dates: 'Apr 2026 – Present',
+              sentence:
+                'Building the case lifecycle engine for four judicial appeals boards moving onto one platform. Owned one board’s go-live.',
+              metric: '44,000 external users',
+              mark: 'MA',
+            },
+            {
+              org: 'Florida Department of Health',
+              detail: 'MQA Licensing System',
+              dates: 'Apr 2025 – Mar 2026',
+              sentence:
+                'Ran discovery with regulators, then designed agent-based renewal decisions and the payment and verification integrations around them.',
+              metric: '1.5M+ practitioners a year',
+              mark: 'FL',
+            },
+          ],
+        },
+        {
+          title: 'Associate Forward Deployed Engineer',
+          subtitle: 'Associate Consultant',
+          dates: 'Feb 2024 – Apr 2025',
+          engagements: [
+            {
+              org: 'Rocky Mountain Human Services',
+              detail: 'Case-management expansion',
+              dates: 'Feb 2024 – Mar 2025',
+              sentence: 'Led five developers day to day and ran the migration from MySQL to SQL Server.',
+              metric: '10M+ records migrated',
+              mark: 'RM',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      org: 'Eastman Kodak Company',
+      mark: 'K',
+      roles: [
+        {
+          title: 'Software Developer',
+          dates: 'Aug 2023 – Dec 2023',
+          sentence:
+            'Replaced manual Excel reporting with a Tag Manager to Tableau pipeline, and shipped Craft CMS updates to kodak.com.',
+          metric: 'Shipped to kodak.com',
+        },
+      ],
+    },
+    {
+      org: 'Networkqy AI',
+      mark: 'N',
+      roles: [
+        {
+          title: 'Co-founder and CTO',
+          dates: 'Apr 2021 – Jul 2023',
+          sentence:
+            'Co-founded an angel-funded career platform for universities. Built the AI stack and ran the pilots from first call to delivery.',
+          metric: '2 of 3 pilots converted to paid',
+        },
+      ],
+    },
+    {
+      org: 'Monster Energy Company',
+      mark: 'ME',
+      roles: [
+        {
+          title: 'Business Technology Intern',
+          dates: 'May 2023 – Jul 2023',
+          sentence: 'Moved the master data team from Excel-only workflows to SQL, Python and Power BI.',
+          metric: '~50,000 records, 40+ markets',
+        },
+      ],
+    },
+  ] satisfies Employer[],
+  more: { label: 'Full history on LinkedIn', href: person.linkedin, external: true },
+}
+
+export const toolkit = {
+  kicker: '04 / Toolkit',
+  heading: 'What I reach for.',
+  tools: [
+    { name: 'Appian', logo: 'appian' },
+    { name: 'Java', logo: 'java' },
+    { name: 'Python', logo: 'python' },
+    { name: 'SQL Server', logo: 'sqlserver' },
+    { name: 'AWS', logo: 'aws' },
+    { name: 'Claude', logo: 'claude' },
+    { name: 'React', logo: 'react' },
+    { name: 'LangChain', logo: 'langchain' },
+    { name: 'Pinecone' },
+    { name: 'vLLM' },
+    { name: 'Docker', logo: 'docker' },
+    { name: 'Git', logo: 'git' },
+  ] satisfies Tool[],
+  credentials: [
+    { name: 'Appian Certified Senior Developer', logo: 'appian' },
+    { name: 'Claude Certified Architect', logo: 'claude' },
+  ],
+  education: [
+    {
+      degree: 'MS Computer Science, Data Science',
+      school: 'University of Southern California',
+      year: '2023',
+    },
+    {
+      degree: 'BE Computer Science, minor in Finance',
+      school: 'BITS Pilani, Dubai',
+      year: '2021',
+    },
+  ],
+}
+
+export const projects = {
+  kicker: '05 / Earlier work',
+  heading: 'Before the day job.',
+  items: [
+    {
+      title: 'Emulated distributed file system',
+      line: 'Partitioned about a million LAPD crime records across MySQL, with map and reduce style queries on top.',
+      stack: ['Python', 'MySQL', 'Streamlit'],
+      note: 'USC',
+      href: 'https://github.com/sachinsingh018/Emulated-Distributed-File-System-Using-SQL-and-Python',
+    },
+    {
+      title: 'Weenix kernel',
+      line: 'Processes, threads, a virtual file system and virtual memory for a teaching operating system.',
+      stack: ['C'],
+      note: 'USC coursework, code private',
+    },
+    {
+      title: 'Store sales forecasting',
+      line: 'Stacked Ridge, random forest and XGBoost models for a class Kaggle competition.',
+      stack: ['Python', 'scikit-learn', 'XGBoost'],
+      note: 'USC coursework',
+    },
+    {
+      title: 'Health document assistant',
+      line: 'Turns uploaded medical PDFs into a timeline, a summary and a chat.',
+      stack: ['Next.js', 'TypeScript', 'Gemini'],
+      note: 'Side project',
+      href: 'https://github.com/sachinsingh018/health-app',
+    },
+  ] satisfies Project[],
+  all: { label: 'All projects on GitHub', href: `${person.github}?tab=repositories`, external: true },
+}
+
+export const contact = {
+  kicker: '06 / Contact',
+  heading: 'Building something that has to be right the first time?',
+  sub: 'I would like to hear about it.',
+  copied: 'Email copied',
+}
+
+export const footer = {
+  colophon: 'Designed and built by me with React Three Fiber, GSAP and Motion.',
+}
+
+/** Section ids in page order. The hero graph has one node cluster per section. */
+export const sectionIds = ['work', 'process', 'experience', 'toolkit', 'projects', 'contact'] as const
+export type SectionId = (typeof sectionIds)[number]
