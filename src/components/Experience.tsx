@@ -63,7 +63,8 @@ function RoleBlock({ role }: { role: Role }) {
         <p className="num m-0 text-xs text-subtle">{role.dates}</p>
       </div>
       {role.sentence ? <p className="mt-2 text-muted">{role.sentence}</p> : null}
-      {role.metric ? <p className="chip mt-3">{role.metric}</p> : null}
+      {role.metrics ? <Metrics items={role.metrics} /> : null}
+      {role.stack ? <Stack items={role.stack} /> : null}
       {role.engagements ? (
         <ul className="m-0 mt-4 grid list-none gap-6 border-l border-line p-0 pl-5">
           {role.engagements.map((g) => (
@@ -87,7 +88,29 @@ function EngagementBlock({ g }: { g: Engagement }) {
         <p className="num m-0 text-xs text-subtle">{g.dates}</p>
       </div>
       <p className="mt-1.5 text-muted">{g.sentence}</p>
-      <p className="chip mt-3">{g.metric}</p>
+      <Metrics items={g.metrics} />
+      {g.stack ? <Stack items={g.stack} /> : null}
     </li>
+  )
+}
+
+function Metrics({ items }: { items: string[] }) {
+  return (
+    <ul className="m-0 mt-3 flex list-none flex-wrap gap-2 p-0">
+      {items.map((m) => (
+        <li key={m} className="chip">
+          {m}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function Stack({ items }: { items: string[] }) {
+  return (
+    <p className="m-0 mt-3 font-mono text-xs leading-relaxed text-subtle">
+      <span className="sr-only">Stack: </span>
+      {items.join(' · ')}
+    </p>
   )
 }

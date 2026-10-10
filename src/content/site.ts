@@ -40,7 +40,9 @@ export type Engagement = {
   detail?: string
   dates: string
   sentence: string
-  metric: string
+  /** Each entry renders as its own chip. */
+  metrics: string[]
+  stack?: string[]
 }
 
 export type Role = {
@@ -50,7 +52,8 @@ export type Role = {
   engagements?: Engagement[]
   /** Used when the role has no separate client engagements. */
   sentence?: string
-  metric?: string
+  metrics?: string[]
+  stack?: string[]
 }
 
 export type Employer = {
@@ -202,20 +205,22 @@ export const experience = {
           dates: 'Apr 2025 – Present',
           engagements: [
             {
-              org: 'Massachusetts Administration and Finance',
+              org: 'Massachusetts A&F',
               detail: 'Legal Case Management System',
               dates: 'Apr 2026 – Present',
               sentence:
-                'Building the case lifecycle engine for four judicial appeals boards moving onto one platform. Owned one board’s go-live.',
-              metric: '44,000 external users',
+                'Building the case lifecycle engine that moves four judicial appeals boards onto one Appian platform: state transitions, parent-child case consolidation, and multi-day hearing scheduling. Traced app-wide latency to Graph API fan-out and unindexed dashboard queries, then fixed it with request batching and indexed SQL Server views. Owned the Civil Service Commission go-live.',
+              metrics: ['70% faster page loads', '44,000 external users'],
+              stack: ['Appian', 'Java', 'SQL Server', 'AWS S3 + Lambda', 'Microsoft Graph API', 'OAuth 2.0'],
             },
             {
               org: 'Florida Department of Health',
               detail: 'MQA Licensing System',
               dates: 'Apr 2025 – Mar 2026',
               sentence:
-                'Ran discovery with regulators, then designed agent-based renewal decisions and the payment and verification integrations around them.',
-              metric: '1.5M+ practitioners a year',
+                'Ran 12+ discovery sessions with regulators, then architected renewal decisioning on Claude via AWS Bedrock: a JSON-schema decision contract, a parallel validation layer, and no denial without human review. Built the integrations around it, including Tyler payments with settlement reconciliation, CE Broker, AHCA, and SAML SSO on the state’s Entra ID.',
+              metrics: ['77% of renewals auto-processed', '1.5M+ practitioners a year'],
+              stack: ['Appian AI Agents', 'Claude on Bedrock', 'REST APIs', 'SAML SSO', 'SQL stored procedures', 'Selenium'],
             },
           ],
         },
@@ -228,8 +233,10 @@ export const experience = {
               org: 'Rocky Mountain Human Services',
               detail: 'Case-management expansion',
               dates: 'Feb 2024 – Mar 2025',
-              sentence: 'Led five developers day to day and ran the migration from MySQL to SQL Server.',
-              metric: '10M+ records migrated',
+              sentence:
+                'Ran day-to-day delivery for the client’s five-person dev team and built a custom Java plugin. Led the MySQL to SQL Server migration with UTF-8 hardening and walked stakeholders through cutover risk before go-live.',
+              metrics: ['10M+ records migrated'],
+              stack: ['Java', 'MySQL', 'SQL Server', 'Appian'],
             },
           ],
         },
@@ -242,8 +249,9 @@ export const experience = {
           title: 'Software Developer',
           dates: 'Aug 2023 – Dec 2023',
           sentence:
-            'Replaced manual Excel reporting with a Tag Manager to Tableau pipeline, and shipped Craft CMS updates to kodak.com.',
-          metric: 'Shipped to kodak.com',
+            'Replaced manual Excel reporting with a Google Tag Manager to Tableau analytics pipeline, and shipped Vue.js/Nuxt features to kodak.com behind a containerised Git and Docker release workflow.',
+          metrics: ['12 high-priority defects resolved', 'still live on kodak.com'],
+          stack: ['Vue.js', 'Nuxt', 'Docker', 'Craft CMS', 'Tableau'],
         },
       ],
     },
@@ -254,8 +262,9 @@ export const experience = {
           title: 'Co-founder and CTO',
           dates: 'Apr 2021 – Jul 2023',
           sentence:
-            'Co-founded an angel-funded career platform for universities. Built the AI stack and ran the pilots from first call to delivery.',
-          metric: '2 of 3 pilots converted to paid',
+            'Co-founded an angel-funded career platform for universities and built the AI stack end to end: real-time interview practice on Whisper and GPT-4 over WebSockets, a Pinecone RAG pipeline with cross-encoder reranking, and a semantic cache on a self-hosted, LoRA-tuned Mistral 7B. Ran every pilot from first call to paid contract.',
+          metrics: ['15,000 users', '2 of 3 pilots converted to paid'],
+          stack: ['Python', 'React/Next.js', 'Pinecone', 'vLLM', 'OpenAI', 'MongoDB'],
         },
       ],
     },
@@ -265,8 +274,10 @@ export const experience = {
         {
           title: 'Business Technology Intern',
           dates: 'May 2023 – Jul 2023',
-          sentence: 'Brought SQL, Python and Power BI into an Excel-only master data team.',
-          metric: '~50,000 records, 40+ markets',
+          sentence:
+            'Moved an Excel-only master data team onto SQL, Python and Power Platform, adding pipeline monitoring and event-driven alerts against SAP and Azure SQL.',
+          metrics: ['67% faster issue detection', '~50,000 records, 40+ markets'],
+          stack: ['SQL', 'Python', 'Power BI', 'Power Automate'],
         },
       ],
     },
