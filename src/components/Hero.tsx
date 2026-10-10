@@ -24,7 +24,7 @@ export function Hero() {
         </p>
         <h1
           id="hero-h"
-          className="display rise mt-5 max-w-[15ch] text-balance text-[clamp(2.6rem,1.1rem+5.4vw,6rem)]"
+          className="display rise mt-5 max-w-[19ch] text-balance text-[clamp(2.6rem,1.1rem+5.4vw,6rem)]"
           style={delay(100)}
         >
           {hero.headline.before}
@@ -32,7 +32,7 @@ export function Hero() {
           {hero.headline.after}
         </h1>
         <p
-          className="rise mt-6 max-w-[34rem] text-lg leading-relaxed text-muted md:text-xl"
+          className="rise mt-6 max-w-[38rem] text-lg leading-relaxed text-muted md:text-xl"
           style={delay(200)}
         >
           {keepHyphens(hero.sub)}

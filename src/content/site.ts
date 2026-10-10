@@ -100,8 +100,8 @@ export const nav: Link[] = [
 export const hero = {
   kicker: 'Solutions engineer, forward deployed',
   /** The middle part is rendered with the accent gradient. */
-  headline: { before: 'I build the systems people are ', accent: 'legally required', after: ' to use.' },
-  sub: 'I run discovery with regulators, write the technical side of the bid, then lead the build through go-live. Before that, co-founder and CTO of an AI startup.',
+  headline: { before: 'I build production systems for ', accent: 'government and healthcare', after: '.' },
+  sub: 'From the first discovery session to architecture, code, and go-live. Most recently, LLM agents on AWS Bedrock that auto-process 77% of medical licence renewals for 1.5M+ practitioners. Before that, co-founder and CTO of an AI startup.',
   primary: { label: 'See the work', href: '#work' },
   secondary: { label: 'Get in touch', href: '#contact' },
 }
