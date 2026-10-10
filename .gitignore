@@ -1,0 +1,5 @@
+_resumes/
+Claude outputs/
+*:Zone.Identifier
+node_modules/
+dist/
