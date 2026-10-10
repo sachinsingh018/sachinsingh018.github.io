@@ -7,7 +7,7 @@ export function Experience() {
   return (
     <section id="experience" aria-labelledby="experience-h" className="relative z-[1] scroll-mt-16 cv-section py-16 md:py-24">
       <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-5 xl:col-span-4">
           <div className="lg:sticky lg:top-28">
             <SectionHeader id="experience-h" kicker={experience.kicker} heading={experience.heading} />
             <Reveal delay={0.08}>
@@ -25,7 +25,7 @@ export function Experience() {
           </div>
         </div>
 
-        <ol className="m-0 list-none p-0 lg:col-span-8">
+        <ol className="m-0 list-none p-0 lg:col-span-7 xl:col-span-8">
           {experience.employers.map((e, i) => (
             <Reveal as="li" key={e.org} delay={0.04 * i} className="border-t border-line py-8 first:border-t-0 first:pt-0 md:py-10">
               <EmployerBlock employer={e} />

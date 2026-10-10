@@ -189,7 +189,7 @@ export const process = {
 
 export const experience = {
   kicker: '03 / Experience',
-  heading: 'Where I have worked.',
+  heading: 'Where I’ve worked.',
   about:
     'Most of my work sits where software meets regulation: licensing, appeals boards and health services. I like starting at the shadowing sessions and staying until the system is stable in production.',
   employers: [
