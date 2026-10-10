@@ -356,7 +356,7 @@ export const projects = {
 export const contact = {
   kicker: '06 / Contact',
   heading: 'Building something that has to be right the first time?',
-  sub: 'I would like to hear about it.',
+  sub: 'I’d like to join your team.',
   copied: 'Email copied',
 }
 
