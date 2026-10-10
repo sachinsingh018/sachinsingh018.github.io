@@ -346,7 +346,7 @@ export const projects = {
     {
       title: 'Weenix kernel',
       line: 'Processes, threads, a virtual file system and virtual memory for a teaching operating system.',
-      stack: ['C'],
+      stack: ['C', 'QEMU', 'GDB'],
       note: 'USC COURSEWORK, CODE PRIVATE',
     },
   ] satisfies Project[],
