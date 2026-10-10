@@ -1,0 +1,8 @@
+_resumes/
+Claude outputs/
+*:Zone.Identifier
+node_modules/
+dist/
+.ssr/
+.playwright-mcp/
+public/detect-gpu/

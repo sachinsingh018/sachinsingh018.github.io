@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sachinsingh018.github.io/sitemap.xml

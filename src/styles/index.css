@@ -1,0 +1,447 @@
+@import 'tailwindcss';
+
+/* Theme switch is driven by data-theme on <html>, set before paint by the inline script in index.html. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
+/* Metric-matched fallbacks so the swap from system font to web font does not shift layout.
+   Values computed with fontTools from the latin woff2 files against Arial and Courier New. */
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
+  size-adjust: 108.6%;
+  ascent-override: 92.5%;
+  descent-override: 27.1%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
+  size-adjust: 109.4%;
+  ascent-override: 88.5%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New'), local('Menlo'), local('Consolas');
+  size-adjust: 100%;
+  ascent-override: 102%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #07080c;
+  --bg-raised: #0b0d12;
+  --surface: #0f1218;
+  --surface-2: #151922;
+  --fg: #f3f5f8;
+  --fg-muted: #a0a6b1;
+  --fg-subtle: #7d838f;
+  --line: rgb(214 228 255 / 0.08);
+  --line-strong: rgb(214 228 255 / 0.15);
+  --accent-a: #7c7cf8;
+  --accent-b: #22d3ee;
+  --accent-text: #a5b4fc;
+  --accent-ink: #07080c;
+  --ok: #5eead4;
+  --warn: #fbbf24;
+  --danger: #f87171;
+  --spot: rgb(165 180 252 / 0.08);
+  --scrim: 7 8 12;
+  --grain-opacity: 0.035;
+  --shadow-key: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 0 0 1px rgb(255 255 255 / 0.1), 0 -1px 0 rgb(0 0 0 / 0.25) inset;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --bg-raised: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --fg: #0b0d12;
+  --fg-muted: #464c57;
+  --fg-subtle: #5d6470;
+  --line: rgb(12 22 44 / 0.1);
+  --line-strong: rgb(12 22 44 / 0.18);
+  --accent-a: #4f46e5;
+  --accent-b: #0891b2;
+  --accent-text: #4338ca;
+  --accent-ink: #ffffff;
+  --ok: #0f766e;
+  --warn: #b45309;
+  --danger: #b91c1c;
+  --spot: rgb(79 70 229 / 0.06);
+  --scrim: 246 247 249;
+  --grain-opacity: 0.025;
+  --shadow-key: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 0 0 1px rgb(12 22 44 / 0.12), 0 1px 2px rgb(12 22 44 / 0.08);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent-a: var(--accent-a);
+  --color-accent-b: var(--accent-b);
+  --color-accent: var(--accent-text);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+
+  --font-display: 'Geist Variable', 'Geist Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Variable', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono Fallback', ui-monospace, monospace;
+
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-micro: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@theme {
+  --breakpoint-xs: 26rem;
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background: var(--bg);
+    min-height: 100svh;
+    font-size: 1rem;
+    line-height: 1.625;
+    letter-spacing: -0.011em;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--accent-a) 40%, transparent);
+    color: var(--fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  /* Lenis owns smooth scrolling. Native smooth scroll only without it. */
+  @media (prefers-reduced-motion: no-preference) {
+    html:not(.lenis) {
+      scroll-behavior: smooth;
+    }
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2rem, 1.4rem + 2.2vw, 3rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, var(--accent-a) 0%, var(--accent-b) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hairline {
+    border-color: var(--line);
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  /* Cards with a cursor spotlight. --mx and --my are set by useSpotlight. */
+  .spot-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    transition: border-color 160ms var(--ease-micro);
+    isolation: isolate;
+  }
+  .spot-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms var(--ease-micro);
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), var(--spot), transparent 70%);
+    z-index: -1;
+  }
+  .spot-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+  @media (hover: hover) {
+    .spot-card:hover {
+      border-color: var(--line-strong);
+    }
+    .spot-card:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 1.75rem;
+    padding-inline: 0.625rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    white-space: nowrap;
+  }
+
+  /* Monochrome logo rendered from an SVG mask so it follows currentColor. */
+  .logo-mask {
+    display: inline-block;
+    flex: none;
+    background-color: currentColor;
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding-inline: 1.125rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition:
+      transform 140ms var(--ease-micro),
+      background-color 160ms var(--ease-micro),
+      border-color 160ms var(--ease-micro),
+      color 160ms var(--ease-micro);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(100deg, #5b5bea 0%, #2f7fd6 55%, #1597b8 100%);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.25) inset,
+      0 0 0 1px rgb(255 255 255 / 0.08),
+      0 6px 18px -10px color-mix(in oklab, var(--accent-a) 55%, transparent);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.08);
+  }
+  .btn-ghost {
+    color: var(--fg);
+    background: color-mix(in oklab, var(--surface) 60%, transparent);
+    box-shadow: var(--shadow-key);
+  }
+  .btn-ghost:hover {
+    background: var(--surface-2);
+  }
+  .btn-sm {
+    height: 2.25rem;
+    padding-inline: 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 240ms var(--ease-out-quint);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Film grain. Very faint; a static SVG noise tile. */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+/* Hero entrance runs in CSS so the headline paints before JavaScript hydrates. It moves but never
+   fades: text at opacity 0 does not count as painted, which would push LCP back to after hydration. */
+@keyframes rise {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 800ms var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .rise {
+    animation: none;
+  }
+}
+
+/* Hero: poster shown until the canvas has drawn, and a scrim under the copy. */
+.hero-poster {
+  background:
+    radial-gradient(38rem 30rem at 72% 46%, color-mix(in oklab, var(--accent-a) 16%, transparent), transparent 70%),
+    radial-gradient(24rem 20rem at 82% 60%, color-mix(in oklab, var(--accent-b) 10%, transparent), transparent 70%),
+    var(--bg);
+}
+.hero-scrim {
+  background: linear-gradient(0deg, rgb(var(--scrim) / 0.97) 0%, rgb(var(--scrim) / 0.9) 55%, rgb(var(--scrim) / 0.35) 72%, transparent 88%);
+}
+@media (min-width: 768px) {
+  .hero-scrim {
+    background:
+      linear-gradient(90deg, rgb(var(--scrim) / 0.94) 0%, rgb(var(--scrim) / 0.78) 34%, rgb(var(--scrim) / 0.2) 60%, transparent 78%),
+      linear-gradient(0deg, rgb(var(--scrim) / 1) 0%, transparent 18%);
+  }
+}
+/* Past the hero the graph becomes a quiet map at the right edge, clear of the reading column. */
+.hero-backdrop {
+  transition-property: opacity, mask-position, -webkit-mask-position;
+}
+@media (min-width: 768px) {
+  .hero-backdrop-dim {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 66%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, transparent 66%, #000 100%);
+  }
+}
+/* A still render of the graph, shown on desktop in the dark theme until the canvas has drawn. */
+@media (min-width: 768px) {
+  [data-theme='dark'] .hero-poster {
+    background:
+      url(/hero-poster-sm.webp) center / cover no-repeat,
+      var(--bg);
+  }
+}
+@media (min-width: 1280px) {
+  [data-theme='dark'] .hero-poster {
+    background:
+      url(/hero-poster.webp) center / cover no-repeat,
+      var(--bg);
+  }
+}
+
+/* Sections below the hero skip layout and paint until they approach the viewport, so the first
+   frame only lays out the hero. The intrinsic size is remembered once a section has rendered. */
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
+}
