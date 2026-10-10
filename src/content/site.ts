@@ -41,7 +41,6 @@ export type Engagement = {
   dates: string
   sentence: string
   metric: string
-  mark: string
 }
 
 export type Role = {
@@ -56,7 +55,6 @@ export type Role = {
 
 export type Employer = {
   org: string
-  mark: string
   roles: Role[]
 }
 
@@ -119,12 +117,12 @@ export const shippedFor = {
    * (the Massachusetts seal is barred from advertising use by M.G.L. c.264 s.5).
    */
   orgs: [
-    { name: 'Commonwealth of Massachusetts', lines: ['Commonwealth of', 'Massachusetts'], style: 'eyebrow' },
-    { name: 'Florida Department of Health', lines: ['Florida', 'Department of Health'], style: 'stack' },
-    { name: 'Rocky Mountain Human Services', lines: ['Rocky Mountain', 'Human Services'], style: 'stack' },
-    { name: 'Kodak', lines: ['Kodak'], style: 'caps' },
-    { name: 'Monster Energy', lines: ['Monster Energy'], style: 'caps' },
-  ] satisfies { name: string; lines: string[]; style: 'eyebrow' | 'stack' | 'caps' }[],
+    { name: 'Commonwealth of Massachusetts', lines: ['Commonwealth of', 'Massachusetts'] },
+    { name: 'Florida Department of Health', lines: ['Florida', 'Department of Health'] },
+    { name: 'Rocky Mountain Human Services', lines: ['Rocky Mountain', 'Human Services'] },
+    { name: 'Kodak', lines: ['Kodak'] },
+    { name: 'Monster Energy', lines: ['Monster Energy'] },
+  ] satisfies { name: string; lines: string[] }[],
   note: 'Government and healthcare work via Ignyte Group',
 }
 
@@ -165,7 +163,7 @@ export const work = {
       context: 'Career platform for universities',
       problem:
         'Users asked the same questions in different words, and every one was a paid API call.',
-      result: { value: 'Local', label: 'repeat questions served by a self-hosted model' },
+      result: { value: '', label: 'Repeat questions served by a self-hosted model, not the paid API.' },
       stack: ['Pinecone', 'Cross-encoder', 'Mistral 7B', 'vLLM'],
       size: 'small',
     },
@@ -179,7 +177,7 @@ export const process = {
   stages: [
     { name: 'Discovery', proof: '12+ regulator sessions' },
     { name: 'Requirements', proof: '112 traced requirements' },
-    { name: 'Bid and demo', proof: '20+ RFP sections, 2 wins' },
+    { name: 'Bid and demo', proof: '20+ RFP sections, 2 winning bids' },
     { name: 'Build', proof: 'LLM agents in production' },
     { name: 'Go-live', proof: '30 staff trained' },
   ],
@@ -191,13 +189,12 @@ export const process = {
 
 export const experience = {
   kicker: '03 / Experience',
-  heading: 'Where I have worked.',
+  heading: 'Where I have worked.',
   about:
-    'I work where software meets regulation: licensing, appeals boards and health services, where access control, accessibility and audit trails are part of the spec. I like owning the whole arc, from the first shadowing session to stabilisation after go-live. Before consulting I co-founded Networkqy AI and ran its engineering. Appian, Java and Python day to day, with LLM agents in production.',
+    'Most of my work sits where software meets regulation: licensing, appeals boards and health services. I like starting at the shadowing sessions and staying until the system is stable in production.',
   employers: [
     {
       org: 'Ignyte Group',
-      mark: 'IG',
       roles: [
         {
           title: 'Forward Deployed Engineer',
@@ -211,7 +208,6 @@ export const experience = {
               sentence:
                 'Building the case lifecycle engine for four judicial appeals boards moving onto one platform. Owned one board’s go-live.',
               metric: '44,000 external users',
-              mark: 'MA',
             },
             {
               org: 'Florida Department of Health',
@@ -220,7 +216,6 @@ export const experience = {
               sentence:
                 'Ran discovery with regulators, then designed agent-based renewal decisions and the payment and verification integrations around them.',
               metric: '1.5M+ practitioners a year',
-              mark: 'FL',
             },
           ],
         },
@@ -235,7 +230,6 @@ export const experience = {
               dates: 'Feb 2024 – Mar 2025',
               sentence: 'Led five developers day to day and ran the migration from MySQL to SQL Server.',
               metric: '10M+ records migrated',
-              mark: 'RM',
             },
           ],
         },
@@ -243,7 +237,6 @@ export const experience = {
     },
     {
       org: 'Eastman Kodak Company',
-      mark: 'K',
       roles: [
         {
           title: 'Software Developer',
@@ -256,7 +249,6 @@ export const experience = {
     },
     {
       org: 'Networkqy AI',
-      mark: 'N',
       roles: [
         {
           title: 'Co-founder and CTO',
@@ -269,12 +261,11 @@ export const experience = {
     },
     {
       org: 'Monster Energy Company',
-      mark: 'ME',
       roles: [
         {
           title: 'Business Technology Intern',
           dates: 'May 2023 – Jul 2023',
-          sentence: 'Moved the master data team from Excel-only workflows to SQL, Python and Power BI.',
+          sentence: 'Brought SQL, Python and Power BI into an Excel-only master data team.',
           metric: '~50,000 records, 40+ markets',
         },
       ],
@@ -287,18 +278,18 @@ export const toolkit = {
   kicker: '04 / Toolkit',
   heading: 'What I reach for.',
   tools: [
-    { name: 'Appian', logo: 'appian' },
-    { name: 'Java', logo: 'java' },
-    { name: 'Python', logo: 'python' },
-    { name: 'SQL Server', logo: 'sqlserver' },
-    { name: 'AWS', logo: 'aws' },
-    { name: 'Claude', logo: 'claude' },
-    { name: 'React', logo: 'react' },
-    { name: 'LangChain', logo: 'langchain' },
+    { name: 'Appian' },
+    { name: 'Java' },
+    { name: 'Python' },
+    { name: 'SQL Server' },
+    { name: 'AWS' },
+    { name: 'Claude' },
+    { name: 'React' },
+    { name: 'LangChain' },
     { name: 'Pinecone' },
     { name: 'vLLM' },
-    { name: 'Docker', logo: 'docker' },
-    { name: 'Git', logo: 'git' },
+    { name: 'Docker' },
+    { name: 'Git' },
   ] satisfies Tool[],
   credentials: [
     { name: 'Appian Certified Senior Developer', logo: 'appian' },
@@ -323,7 +314,7 @@ export const projects = {
   heading: 'Before the day job.',
   items: [
     {
-      title: 'Emulated distributed file system',
+      title: 'Distributed file system',
       line: 'Partitioned about a million LAPD crime records across MySQL, with map and reduce style queries on top.',
       stack: ['Python', 'MySQL', 'Streamlit'],
       note: 'USC',

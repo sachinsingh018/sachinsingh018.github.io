@@ -37,13 +37,13 @@ function geometry(layout: Layout) {
   const X0 = wide ? 168 : 12
   const X1 = wide ? 544 : 348
   const W = X1 - X0
-  const pitch = wide ? 24 : 32
+  const pitch = wide ? 28 : 32
   const top = wide ? 40 : 40
   // In wide rows the label sits left of the bar; in tall rows above it.
   const rowY = (i: number) => top + i * pitch
   const barY = (i: number) => (wide ? rowY(i) : rowY(i) + 5)
-  const labelY = (i: number) => (wide ? rowY(i) + 11 : rowY(i))
-  const barH = wide ? 14 : 12
+  const labelY = (i: number) => (wide ? rowY(i) + 12 : rowY(i))
+  const barH = wide ? 15 : 12
   const gridTop = 28
   const gridBottom = wide ? top + ROWS.length * pitch - 4 : top + ROWS.length * pitch - 10
   const totalY = gridBottom + (wide ? 44 : 50)
@@ -95,7 +95,7 @@ function build(root: SVGSVGElement, layout: Layout) {
   // 3. Slow query
   tl.addLabel('scan', 4.5)
   tl.fromTo(q('.lt-query-hl'), { opacity: 0 }, { opacity: 1, duration: 0.4 }, 'scan')
-  tl.from(q('.lt-table'), { opacity: 0, scale: 0.6, transformOrigin: '50% 50%', duration: 0.35, ease: 'back.out(2)' }, 'scan+=0.1')
+  tl.from(q('.lt-table'), { opacity: 0, scale: 0.6, transformOrigin: '50% 50%', duration: 0.35, ease: 'back.out(1.2)' }, 'scan+=0.1')
   tl.fromTo(q('.lt-scanline'), { y: 0, opacity: 1 }, { y: 10, duration: 0.45, repeat: 2, ease: 'none' }, 'scan+=0.4')
   tl.to(q('.lt-scanline'), { opacity: 0, duration: 0.1 })
   tl.from(q('.lt-badge-scan'), { opacity: 0, duration: 0.3 }, 'scan+=0.5')
@@ -137,7 +137,7 @@ function build(root: SVGSVGElement, layout: Layout) {
 
   // 6. Result
   tl.addLabel('result', 9.9)
-  tl.fromTo(q('.lt-count-wrap'), { scale: 1 }, { scale: 1.12, transformOrigin: '100% 50%', duration: 0.25, yoyo: true, repeat: 1, ease: 'power2.out' }, 'result')
+  tl.fromTo(q('.lt-count-wrap'), { scale: 1 }, { scale: 1.04, transformOrigin: '100% 50%', duration: 0.25, yoyo: true, repeat: 1, ease: 'power2.out' }, 'result')
   tl.fromTo(q('.lt-result-note'), { opacity: 0 }, { opacity: 1, duration: 0.4 }, 'result+=0.2')
   tl.to({}, { duration: 0.8 })
   return tl
@@ -290,7 +290,7 @@ function Diagram({ layout }: { layout: Layout }) {
         <tspan className="lt-count">70</tspan>% less
       </text>
       <text x={g.X0} y={g.totalY + 32} className="ex-text-sm lt-result-note">
-        Two causes, two fixes. Neither alone would have done it.
+        Two causes, two fixes.
       </text>
     </g>
   )

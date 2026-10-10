@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { ArrowRight, X } from 'lucide-react'
 import { work, type CaseStudy, type CaseStudyId } from '../content/site'
 import { explainers } from '../content/explainers'
-import { explainerFor } from '../explainers/registry'
+import { LazyExplainer } from '../explainers/LazyExplainer'
 import { getLenis } from '../lib/lenis'
 
 type Props = { openId: CaseStudyId | null; onClose: () => void; onOpen: (id: CaseStudyId) => void }
@@ -18,7 +18,6 @@ export function CaseSheet({ openId, onClose, onOpen }: Props) {
 function Sheet({ study, onClose, onOpen }: { study: CaseStudy; onClose: () => void; onOpen: Props['onOpen'] }) {
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
-  const Explainer = explainerFor[study.id]
   const steps = explainers[study.id].steps
   const idx = work.cases.findIndex((c) => c.id === study.id)
   const next = work.cases[(idx + 1) % work.cases.length]
@@ -119,18 +118,22 @@ function Sheet({ study, onClose, onOpen }: { study: CaseStudy; onClose: () => vo
               >
                 <div className="mt-6 grid gap-6 md:grid-cols-3">
                   <Fact label="Problem" className="md:col-span-2">
-                    <p className="m-0 text-pretty text-lg text-fg">{study.problem}</p>
+                    <p className="m-0 text-lg text-fg">{study.problem}</p>
                   </Fact>
                   <Fact label="Result">
-                    <p className="m-0 flex items-baseline gap-3">
-                      <span className="num text-[2rem] font-medium leading-none text-fg">{study.result.value}</span>
-                      <span className="text-sm leading-snug text-muted">{study.result.label}</span>
-                    </p>
+                    {study.result.value ? (
+                      <p className="m-0 flex items-baseline gap-3">
+                        <span className="num text-[2rem] font-medium leading-none text-fg">{study.result.value}</span>
+                        <span className="text-sm leading-snug text-muted">{study.result.label}</span>
+                      </p>
+                    ) : (
+                      <p className="m-0 text-lg text-fg">{study.result.label}</p>
+                    )}
                   </Fact>
                 </div>
 
                 <div className={`mt-10 ${study.size === 'large' ? '' : 'mx-auto max-w-[46rem]'}`}>
-                  <Explainer variant="sheet" />
+                  <LazyExplainer id={study.id} variant="sheet" />
                 </div>
 
                 <div className="mt-12 grid gap-8 border-t border-line pt-8 md:grid-cols-3">

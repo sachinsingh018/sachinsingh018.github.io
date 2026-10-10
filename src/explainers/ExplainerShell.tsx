@@ -62,21 +62,42 @@ export function ExplainerShell({
   const [speed, setSpeed] = useState<1 | 2>(1)
   const [note, setNote] = useState<string | null>(null)
   const [interacted, setInteracted] = useState(false)
+  // Timelines are built only when the explainer gets near the viewport, so hydration stays cheap.
+  const [armed, setArmed] = useState(variant === 'sheet')
   const uid = useId()
 
   const steps = data.steps
   const last = steps.length - 1
 
   // Pick a layout from the container width, not the viewport, so cards and sheets each fit.
-  useIsoLayoutEffect(() => {
+  // ResizeObserver reports after layout, so this never forces a synchronous reflow.
+  useEffect(() => {
     const el = rootRef.current
     if (!el) return
-    const pick = (w: number) => setLayout(w < tallBelow ? 'tall' : 'wide')
-    pick(el.getBoundingClientRect().width)
-    const ro = new ResizeObserver(([entry]) => pick(entry.contentRect.width))
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width
+      if (w > 0) setLayout(w < tallBelow ? 'tall' : 'wide')
+    })
     ro.observe(el)
     return () => ro.disconnect()
   }, [tallBelow])
+
+  useEffect(() => {
+    if (armed) return
+    const el = rootRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setArmed(true)
+          io.disconnect()
+        }
+      },
+      { rootMargin: '600px 0px' },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [armed])
 
   const stepAt = useCallback(
     (time: number) => {
@@ -91,7 +112,7 @@ export function ExplainerShell({
   // Build (and rebuild on layout change) the timeline.
   useIsoLayoutEffect(() => {
     const svg = svgRef.current
-    if (!svg) return
+    if (!svg || !armed) return
     const ctx = gsap.context(() => {
       const tl = build(svg, layout)
       tl.pause()
@@ -115,8 +136,8 @@ export function ExplainerShell({
       ctx.revert()
       tlRef.current = null
     }
-    // build is stable per explainer; only layout and reduced motion trigger a rebuild.
-  }, [layout, reduced])
+    // build is stable per explainer; only layout, reduced motion and arming trigger a rebuild.
+  }, [layout, reduced, armed])
 
   useEffect(() => {
     tlRef.current?.timeScale(speed)
@@ -203,7 +224,7 @@ export function ExplainerShell({
   // Autoplay once when 40% visible; pause while off screen and resume on return.
   useEffect(() => {
     const el = rootRef.current
-    if (!el || !autoplay || reduced) return
+    if (!el || !autoplay || reduced || !armed) return
     const io = new IntersectionObserver(
       ([entry]) => {
         const tl = tlRef.current
@@ -230,7 +251,7 @@ export function ExplainerShell({
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [autoplay, reduced])
+  }, [autoplay, reduced, armed])
 
   const settle = useCallback(() => {
     killTween()
@@ -289,7 +310,7 @@ export function ExplainerShell({
         <svg
           ref={svgRef}
           viewBox={viewBox[layout]}
-          className="ex-svg block h-auto w-full"
+          className={`ex-svg block h-auto w-full ${layout === 'tall' ? 'mx-auto max-w-[440px]' : ''}`}
           role="img"
           aria-label={data.summary}
           preserveAspectRatio="xMidYMid meet"

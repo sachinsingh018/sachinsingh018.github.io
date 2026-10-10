@@ -170,7 +170,7 @@ function build(root: SVGSVGElement, layout: Layout) {
   tl.addLabel('miss', 3.0)
   hop(tl, q, '.rg-ta-0', g.hops.a[0], 'miss')
   tl.fromTo(q('.rg-cache-hl'), { opacity: 0 }, { opacity: 1, duration: 0.25 }, 'miss+=0.4')
-  tl.from(q('.rg-pill-miss'), { opacity: 0, scale: 0.8, transformOrigin: '0% 50%', duration: 0.3, ease: 'back.out(2)' }, 'miss+=0.5')
+  tl.from(q('.rg-pill-miss'), { opacity: 0, scale: 0.8, transformOrigin: '0% 50%', duration: 0.3, ease: 'back.out(1.2)' }, 'miss+=0.5')
   tl.to(q('.rg-cache-hl'), { opacity: 0, duration: 0.3 }, 'miss+=1.0')
 
   // 4. Retrieve
@@ -218,7 +218,7 @@ function build(root: SVGSVGElement, layout: Layout) {
   tl.addLabel('hit', 10.4)
   hop(tl, q, '.rg-tb-0', g.hops.b[0], 'hit')
   tl.fromTo(q('.rg-cache-hl'), { opacity: 0 }, { opacity: 1, duration: 0.25 }, 'hit+=0.4')
-  tl.from(q('.rg-pill-hit'), { opacity: 0, scale: 0.8, transformOrigin: '0% 50%', duration: 0.3, ease: 'back.out(2)' }, 'hit+=0.5')
+  tl.from(q('.rg-pill-hit'), { opacity: 0, scale: 0.8, transformOrigin: '0% 50%', duration: 0.3, ease: 'back.out(1.2)' }, 'hit+=0.5')
   tl.fromTo(q('.rg-api'), { opacity: 1 }, { opacity: 0.4, duration: 0.4 }, 'hit+=0.55')
   tl.fromTo(q('.rg-api-strike'), { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.35 }, 'hit+=0.6')
   tl.from(q('.rg-skipped'), { opacity: 0, duration: 0.3 }, 'hit+=0.75')

@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { MotionConfig } from 'motion/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { sectionIds } from './content/site'
 import { setActiveSection } from './lib/sectionStore'
 import { useCaseRoute } from './hooks/useHashRoute'
@@ -35,9 +36,31 @@ function useSectionTracking() {
   }, [])
 }
 
+/**
+ * Sections below the fold use content-visibility, so their real heights arrive as they render.
+ * Re-measure scroll-linked animations whenever the page height changes.
+ */
+function useScrollTriggerRefresh() {
+  useEffect(() => {
+    const main = document.getElementById('main')
+    if (!main) return
+    let t = 0
+    const ro = new ResizeObserver(() => {
+      window.clearTimeout(t)
+      t = window.setTimeout(() => ScrollTrigger.refresh(), 150)
+    })
+    ro.observe(main)
+    return () => {
+      ro.disconnect()
+      window.clearTimeout(t)
+    }
+  }, [])
+}
+
 export default function App() {
   const { openCase, open, close } = useCaseRoute()
   useSectionTracking()
+  useScrollTriggerRefresh()
 
   return (
     <MotionConfig reducedMotion="user">
@@ -55,12 +78,25 @@ export default function App() {
         <Hero />
         <ImpactStrip />
         <LogoWall />
-        <Work onOpen={open} openId={openCase} />
-        <HowIWork />
-        <Experience />
-        <SkillsBand />
-        <Projects />
-        <Contact />
+        {/* Each boundary hydrates on its own, so React can yield between sections. */}
+        <Suspense fallback={null}>
+          <Work onOpen={open} openId={openCase} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <HowIWork />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Experience />
+        </Suspense>
+        <Suspense fallback={null}>
+          <SkillsBand />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Contact />
+        </Suspense>
       </main>
       <div data-page-root>
         <Footer />

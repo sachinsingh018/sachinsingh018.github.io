@@ -25,7 +25,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" aria-labelledby="contact-h" className="relative z-[1] scroll-mt-16 py-28 md:py-44">
+    <section id="contact" aria-labelledby="contact-h" className="relative z-[1] scroll-mt-16 cv-section py-20 md:py-32">
       <div className="container-page">
         <Reveal>
           <p className="kicker" aria-hidden="true">
@@ -41,8 +41,8 @@ export function Contact() {
             </a>
           </p>
         </Reveal>
-        <Reveal delay={0.08} className="mt-10 flex flex-wrap items-center gap-3">
-          <MagneticButton type="button" onClick={copy} className="btn btn-primary">
+        <Reveal delay={0.08} className="mt-10 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center">
+          <MagneticButton type="button" onClick={copy} className="btn btn-primary col-span-2 sm:col-span-1">
             <Copy size={15} aria-hidden="true" />
             Copy email
           </MagneticButton>

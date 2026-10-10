@@ -5,20 +5,15 @@ import { Reveal } from './ui/Reveal'
 
 export function SkillsBand() {
   return (
-    <section id="toolkit" aria-labelledby="toolkit-h" className="relative z-[1] scroll-mt-16 py-24 md:py-32">
+    <section id="toolkit" aria-labelledby="toolkit-h" className="relative z-[1] scroll-mt-16 cv-section py-16 md:py-24">
       <div className="container-page">
         <SectionHeader id="toolkit-h" kicker={toolkit.kicker} heading={toolkit.heading} />
         <div className="mt-12 grid gap-10 rounded-2xl border border-line bg-surface p-6 sm:p-8 lg:grid-cols-12 lg:gap-12 lg:p-10">
-          <Reveal className="lg:col-span-6">
+          <Reveal className="lg:col-span-5">
             <h3 className="kicker m-0">Core tools</h3>
             <ul className="m-0 mt-5 flex list-none flex-wrap gap-2 p-0">
               {toolkit.tools.map((t) => (
                 <li key={t.name} className="chip !h-8 !px-3 !text-[0.8125rem] text-fg">
-                  {t.logo ? (
-                    <span className="logo-mask text-muted" style={logoStyle(t.logo, 14)} aria-hidden="true" />
-                  ) : (
-                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--fg-subtle)]" />
-                  )}
                   {t.name}
                 </li>
               ))}
@@ -39,7 +34,7 @@ export function SkillsBand() {
             </ul>
           </Reveal>
 
-          <Reveal delay={0.12} className="lg:col-span-3">
+          <Reveal delay={0.12} className="lg:col-span-4">
             <h3 className="kicker m-0">Education</h3>
             <ul className="m-0 mt-5 grid list-none gap-4 p-0">
               {toolkit.education.map((e) => (

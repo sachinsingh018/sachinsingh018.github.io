@@ -89,7 +89,7 @@ function geometry(layout: Layout) {
     exitText: {
       approve: ['Approve', 'auto-processed'],
       review: ['Review', 'a person'],
-      deny: ['Deny', 'no such option'],
+      deny: ['Deny', 'not offered'],
     },
     labels: [
       { t: 'Renewals', x: 10, y: 18 },
@@ -148,7 +148,7 @@ function build(root: SVGSVGElement, layout: Layout) {
       .to(q(`.rn-tok-r-${i}`), { motionPath: { path: g.toRules[i] }, duration: 0.75, ease: 'power1.inOut' }, at)
       .to(q(`.rn-tok-r-${i}`), { opacity: 0, duration: 0.15 }, `${at}+=0.7`)
   })
-  tl.from(q('.rn-check'), { scale: 0, opacity: 0, transformOrigin: '50% 50%', duration: 0.35, stagger: 0.14, ease: 'back.out(2)' }, 'check+=0.8')
+  tl.from(q('.rn-check'), { scale: 0, opacity: 0, transformOrigin: '50% 50%', duration: 0.35, stagger: 0.14, ease: 'back.out(1.2)' }, 'check+=0.8')
   tl.from(q('.rn-agent-think'), { opacity: 0, duration: 0.2 }, 'check+=0.8')
   tl.to(q('.rn-agent-think'), { opacity: 0, duration: 0.2 }, 'check+=1.9')
 
@@ -162,13 +162,13 @@ function build(root: SVGSVGElement, layout: Layout) {
 
   // 5. Route
   tl.addLabel('route', 7.0)
-  tl.from(q('.rn-pill'), { opacity: 0, scale: 0.8, transformOrigin: '0% 50%', duration: 0.35, stagger: 0.1, ease: 'back.out(2)' }, 'route')
+  tl.from(q('.rn-pill'), { opacity: 0, scale: 0.8, transformOrigin: '0% 50%', duration: 0.35, stagger: 0.1, ease: 'back.out(1.2)' }, 'route')
   ;(['.rn-tok-out-a', '.rn-tok-out-r'] as const).forEach((sel, k) => {
     tl.fromTo(q(sel), { opacity: 0 }, { opacity: 1, duration: 0.1 }, 'route+=0.35')
       .to(q(sel), { motionPath: { path: k === 0 ? g.agentOut : g.rulesOut }, duration: 0.55, ease: 'power1.inOut' }, 'route+=0.35')
       .to(q(sel), { opacity: 0, duration: 0.1 }, 'route+=0.85')
   })
-  tl.from(q('.rn-merge'), { scale: 0, transformOrigin: '50% 50%', duration: 0.3, ease: 'back.out(3)' }, 'route+=0.8')
+  tl.from(q('.rn-merge'), { scale: 0, transformOrigin: '50% 50%', duration: 0.3, ease: 'back.out(1.2)' }, 'route+=0.8')
   tl.fromTo(q('.rn-tok-main'), { opacity: 0 }, { opacity: 1, duration: 0.1 }, 'route+=0.95')
     .to(q('.rn-tok-main'), { motionPath: { path: g.toApprove }, duration: 0.55, ease: 'power1.inOut' }, 'route+=0.95')
     .to(q('.rn-tok-main'), { opacity: 0, duration: 0.1 }, 'route+=1.45')
@@ -188,7 +188,7 @@ function build(root: SVGSVGElement, layout: Layout) {
   tl.from(q('.rn-row'), { opacity: 0, y: 6, duration: 0.4, stagger: 0.08 }, 'scope')
   tl.from(q('.rn-result-label'), { opacity: 0, duration: 0.3 }, 'scope')
   tl.fromTo(q('.rn-row-locked'), { opacity: 1 }, { opacity: 0.4, duration: 0.4 }, 'scope+=0.6')
-  tl.from(q('.rn-lock'), { scale: 0, transformOrigin: '50% 50%', duration: 0.35, ease: 'back.out(2.5)' }, 'scope+=0.6')
+  tl.from(q('.rn-lock'), { scale: 0, transformOrigin: '50% 50%', duration: 0.35, ease: 'back.out(1.2)' }, 'scope+=0.6')
   tl.from(q('.rn-lock-note'), { opacity: 0, duration: 0.4 }, 'scope+=0.9')
   tl.to({}, { duration: 0.6 })
   return tl
@@ -231,7 +231,7 @@ function Diagram({ layout }: { layout: Layout }) {
             {CARDS[i].id}
           </text>
           <text x={c.x + 12} y={c.y + 35} className="ex-text-sm">
-            {CARDS[i].prof} renewal
+            {wide ? `${CARDS[i].prof} renewal` : CARDS[i].prof}
           </text>
         </g>
       ))}
@@ -518,7 +518,7 @@ export function RenewalAgent({ variant = 'inline' }: { variant?: 'inline' | 'she
       viewBox={{ wide: '0 0 960 432', tall: '0 0 360 752' }}
       build={build}
       variant={variant}
-      tallBelow={620}
+      tallBelow={720}
       onUserAction={resetDisagreement}
       actions={(api) => {
         apiRef.current = api

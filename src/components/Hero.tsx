@@ -12,7 +12,7 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby="hero-h"
-      className="relative flex min-h-[100svh] items-end pb-16 pt-32 md:items-center md:pb-24"
+      className="relative flex min-h-[100svh] items-end pb-14 pt-32 md:min-h-[90svh] md:items-center md:pb-16"
     >
       <HeroBackdrop />
       {/* Scrim keeps the copy readable over the canvas in both themes */}
@@ -32,7 +32,7 @@ export function Hero() {
           {hero.headline.after}
         </h1>
         <p
-          className="rise mt-6 max-w-[34rem] text-pretty text-lg leading-relaxed text-muted md:text-xl"
+          className="rise mt-6 max-w-[34rem] text-lg leading-relaxed text-muted md:text-xl"
           style={delay(200)}
         >
           {keepHyphens(hero.sub)}

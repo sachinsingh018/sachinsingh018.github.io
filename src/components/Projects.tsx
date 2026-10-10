@@ -6,7 +6,7 @@ import { Reveal } from './ui/Reveal'
 
 export function Projects() {
   return (
-    <section id="projects" aria-labelledby="projects-h" className="relative z-[1] scroll-mt-16 py-24 md:py-32">
+    <section id="projects" aria-labelledby="projects-h" className="relative z-[1] scroll-mt-16 cv-section py-16 md:py-24">
       <div className="container-page">
         <SectionHeader id="projects-h" kicker={projects.kicker} heading={projects.heading} />
         <ul className="m-0 mt-12 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4">
@@ -42,7 +42,7 @@ function ProjectCard({ p }: { p: Project }) {
           p.title
         )}
       </h3>
-      <p className="mt-2 flex-1 text-pretty text-sm leading-relaxed text-muted">{p.line}</p>
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.line}</p>
       <div className="mt-5 flex items-center justify-between gap-3">
         <p className="m-0 font-mono text-xs text-subtle">{p.stack.join(' · ')}</p>
         {p.href ? <ArrowUpRight size={15} className="shrink-0 text-subtle" aria-hidden="true" /> : null}

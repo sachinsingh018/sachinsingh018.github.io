@@ -1,7 +1,7 @@
 import { motion } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
 import { work, type CaseStudy } from '../content/site'
-import { explainerFor } from '../explainers/registry'
+import { LazyExplainer } from '../explainers/LazyExplainer'
 import { useSpotlight } from '../hooks/useSpotlight'
 import { SectionHeader } from './ui/SectionHeader'
 import { Reveal } from './ui/Reveal'
@@ -10,7 +10,7 @@ type Props = { onOpen: (id: CaseStudy['id']) => void; openId: CaseStudy['id'] | 
 
 export function Work({ onOpen, openId }: Props) {
   return (
-    <section id="work" aria-labelledby="work-h" className="relative z-[1] scroll-mt-16 py-24 md:py-36">
+    <section id="work" aria-labelledby="work-h" className="relative z-[1] scroll-mt-16 cv-section py-16 md:py-24">
       <div className="container-page">
         <SectionHeader id="work-h" kicker={work.kicker} heading={work.heading} sub={work.sub} />
         <div className="mt-12 grid gap-5 md:mt-16 lg:grid-cols-12">
@@ -27,7 +27,6 @@ export function Work({ onOpen, openId }: Props) {
 
 function CaseCard({ study, onOpen, hidden }: { study: CaseStudy; onOpen: Props['onOpen']; hidden: boolean }) {
   const spot = useSpotlight<HTMLElement>()
-  const Explainer = explainerFor[study.id]
   const large = study.size === 'large'
   const titleId = `case-${study.id}-title`
 
@@ -60,7 +59,7 @@ function CaseCard({ study, onOpen, hidden }: { study: CaseStudy; onOpen: Props['
           >
             {study.title}
           </motion.h3>
-          <p className="mt-3 max-w-[38rem] text-pretty text-muted">{study.problem}</p>
+          <p className="mt-3 max-w-[38rem] text-muted">{study.problem}</p>
         </div>
         {large ? (
           <div className="flex flex-col justify-end gap-5 lg:col-span-5 lg:items-end lg:text-right">
@@ -71,7 +70,7 @@ function CaseCard({ study, onOpen, hidden }: { study: CaseStudy; onOpen: Props['
       </div>
 
       <div className={large ? 'mt-8' : 'mt-6 flex-1'}>
-        <Explainer />
+        <LazyExplainer id={study.id} />
       </div>
 
       {!large ? (
@@ -87,8 +86,14 @@ function CaseCard({ study, onOpen, hidden }: { study: CaseStudy; onOpen: Props['
 function Result({ study, end }: { study: CaseStudy; end?: boolean }) {
   return (
     <p className={`m-0 flex items-baseline gap-3 ${end ? 'lg:justify-end' : ''}`}>
-      <span className="num text-[2rem] font-medium leading-none text-fg">{study.result.value}</span>
-      <span className="max-w-[14rem] text-sm leading-snug text-muted">{study.result.label}</span>
+      {study.result.value ? (
+        <>
+          <span className="num text-[2rem] font-medium leading-none text-fg">{study.result.value}</span>
+          <span className="max-w-[14rem] text-sm leading-snug text-muted">{study.result.label}</span>
+        </>
+      ) : (
+        <span className="max-w-[18rem] text-[0.9375rem] leading-snug text-fg">{study.result.label}</span>
+      )}
     </p>
   )
 }

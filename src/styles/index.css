@@ -59,7 +59,7 @@
 [data-theme='light'] {
   color-scheme: light;
   --bg: #f6f7f9;
-  --bg-raised: #fbfbfc;
+  --bg-raised: #f7f8fa;
   --surface: #ffffff;
   --surface-2: #f0f2f5;
   --fg: #0b0d12;
@@ -304,7 +304,7 @@
     box-shadow:
       0 1px 0 rgb(255 255 255 / 0.25) inset,
       0 0 0 1px rgb(255 255 255 / 0.08),
-      0 8px 24px -8px color-mix(in oklab, var(--accent-a) 60%, transparent);
+      0 6px 18px -10px color-mix(in oklab, var(--accent-a) 55%, transparent);
   }
   .btn-primary:hover {
     filter: brightness(1.08);
@@ -359,17 +359,14 @@
   mix-blend-mode: overlay;
 }
 
-/* Hero entrance runs in CSS so the headline paints before JavaScript hydrates. */
+/* Hero entrance runs in CSS so the headline paints before JavaScript hydrates. It moves but never
+   fades: text at opacity 0 does not count as painted, which would push LCP back to after hydration. */
 @keyframes rise {
   from {
-    opacity: 0;
-    transform: translateY(14px);
-    filter: blur(4px);
+    transform: translateY(12px);
   }
   to {
-    opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 .rise {
@@ -407,7 +404,7 @@
     var(--bg);
 }
 .hero-scrim {
-  background: linear-gradient(0deg, rgb(var(--scrim) / 0.96) 0%, rgb(var(--scrim) / 0.75) 40%, rgb(var(--scrim) / 0.15) 75%, transparent 100%);
+  background: linear-gradient(0deg, rgb(var(--scrim) / 0.97) 0%, rgb(var(--scrim) / 0.9) 55%, rgb(var(--scrim) / 0.35) 72%, transparent 88%);
 }
 @media (min-width: 768px) {
   .hero-scrim {
@@ -422,8 +419,8 @@
 }
 @media (min-width: 768px) {
   .hero-backdrop-dim {
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 45%, #000 85%);
-    mask-image: linear-gradient(90deg, transparent 0%, transparent 45%, #000 85%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 66%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, transparent 66%, #000 100%);
   }
 }
 /* A still render of the graph, shown on desktop in the dark theme until the canvas has drawn. */
@@ -440,4 +437,11 @@
       url(/hero-poster.webp) center / cover no-repeat,
       var(--bg);
   }
+}
+
+/* Sections below the hero skip layout and paint until they approach the viewport, so the first
+   frame only lays out the hero. The intrinsic size is remembered once a section has rendered. */
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
 }
