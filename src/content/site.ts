@@ -87,7 +87,7 @@ export const person = {
 }
 
 export const meta = {
-  title: 'Sachin Singh, solutions engineer',
+  title: 'Sachin Singh - Portfolio',
   description:
     'Solutions engineer and forward deployed engineer. Systems of record for government and healthcare, LLM agents with real guardrails, and the discovery and bids that come before them.',
 }
