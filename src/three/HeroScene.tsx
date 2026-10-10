@@ -1,6 +1,6 @@
-import { Component, useEffect, useMemo, type ReactNode, type RefObject } from 'react'
+import { Component, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { setConsoleFunction } from 'three'
-import { Canvas, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { buildGraph } from './graphData'
 import { SystemGraph } from './SystemGraph'
@@ -64,6 +64,35 @@ function FirstFrame({ onReady }: { onReady: () => void }) {
   return null
 }
 
+/**
+ * Watches real frame times while the hero is live and steps quality down once if the GPU
+ * cannot hold about 60fps: first drop DPR to 1, then turn bloom off.
+ */
+function AdaptiveQuality({ liveRef, level, onDowngrade }: { liveRef: RefObject<boolean>; level: number; onDowngrade: () => void }) {
+  const samples = useRef<number[]>([])
+  const skip = useRef(30)
+  useEffect(() => {
+    samples.current = []
+    skip.current = 30
+  }, [level])
+  useFrame((_, delta) => {
+    if (level >= 2 || !liveRef.current || document.hidden) return
+    if (skip.current > 0) {
+      skip.current--
+      return
+    }
+    // Ignore gaps from demand-mode pauses; only judge consecutive frames.
+    if (delta > 0.25) return
+    samples.current.push(delta * 1000)
+    if (samples.current.length < 90) return
+    const sorted = [...samples.current].sort((a, b) => a - b)
+    const median = sorted[Math.floor(sorted.length / 2)]
+    samples.current = []
+    if (median > 17.5) onDowngrade()
+  })
+  return null
+}
+
 class Boundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() {
@@ -80,15 +109,17 @@ export default function HeroScene({ liveRef, onReady }: Props) {
   const reduced = useReducedMotion()
   const wide = useMediaQuery('(min-width: 1024px)')
   const graph = useMemo(() => (quality ? buildGraph(quality.nodes) : null), [quality])
+  // 0: full quality, 1: DPR 1, 2: DPR 1 without bloom.
+  const [level, setLevel] = useState(0)
 
   if (!quality || !graph || quality.tier === 0) return null
   const bg = theme === 'light' ? '#f6f7f9' : '#07080c'
-  const bloom = quality.bloom && theme === 'dark'
+  const bloom = quality.bloom && theme === 'dark' && level < 2
 
   return (
     <Boundary>
       <Canvas
-        dpr={[1, 1.75]}
+        dpr={level === 0 ? [1, quality.bloom ? 1.5 : 1.75] : 1}
         frameloop="demand"
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance', stencil: false }}
         camera={{ position: [0, 0.3, 10], fov: 38, near: 0.1, far: 50 }}
@@ -110,6 +141,7 @@ export default function HeroScene({ liveRef, onReady }: Props) {
             <Bloom mipmapBlur luminanceThreshold={1} luminanceSmoothing={0.2} intensity={1.1} radius={0.75} />
           </EffectComposer>
         ) : null}
+        <AdaptiveQuality liveRef={liveRef} level={level} onDowngrade={() => setLevel((l) => Math.min(2, l + 1))} />
         <Waker liveRef={liveRef} />
         <FirstFrame onReady={onReady} />
       </Canvas>

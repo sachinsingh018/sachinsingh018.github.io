@@ -318,13 +318,15 @@ export function SystemGraph({ graph, theme, parallax, reduced, liveRef, offsetX 
       const cur = group.current.rotation.y
       targetY = cur + Math.atan2(Math.sin(targetY - cur), Math.cos(targetY - cur))
     }
-    const px = parallax && !reduced ? pointer.current.x * MAX_TILT : 0
-    const py = parallax && !reduced ? pointer.current.y * MAX_TILT * 0.6 : 0
+    // Parallax only follows the pointer while the hero is live; past it the tilt holds still.
+    const follow = parallax && !reduced && live
+    const px = follow ? pointer.current.x * MAX_TILT : tilt.current.y
+    const py = follow ? pointer.current.y * MAX_TILT * 0.6 : tilt.current.x
     const k = reduced ? 1 : 1 - Math.exp(-2.2 * dt)
     tilt.current.x += (py - tilt.current.x) * k
     tilt.current.y += (px - tilt.current.y) * k
     const ry = group.current.rotation.y
-    const nextY = reduced ? targetY : ry + (targetY - ry) * (1 - Math.exp(-1.6 * dt))
+    const nextY = reduced ? targetY : ry + (targetY - ry) * (1 - Math.exp(-2.4 * dt))
     group.current.rotation.y = nextY
     group.current.rotation.x = 0.18 + tilt.current.x
     group.current.rotation.z = -0.06
@@ -332,9 +334,9 @@ export function SystemGraph({ graph, theme, parallax, reduced, liveRef, offsetX 
 
     const settled =
       !moving &&
-      Math.abs(targetY - nextY) < 0.0008 &&
-      Math.abs(px - tilt.current.y) < 0.0008 &&
-      Math.abs(py - tilt.current.x) < 0.0008
+      Math.abs(targetY - nextY) < 0.0015 &&
+      Math.abs(px - tilt.current.y) < 0.0015 &&
+      Math.abs(py - tilt.current.x) < 0.0015
     if ((live && !reduced) || !settled) invalidate()
   })
 

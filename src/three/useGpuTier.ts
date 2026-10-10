@@ -20,7 +20,8 @@ function decide(tier: number, isMobile: boolean): Quality {
     tier,
     isMobile: mobile,
     nodes: mobile ? 96 : low ? 132 : 228,
-    bloom: !mobile && !low,
+    // Bloom is the costliest pass; only top-tier GPUs start with it. AdaptiveQuality still steps down if needed.
+    bloom: !mobile && tier >= 3,
     parallax: !mobile && window.matchMedia('(pointer: fine)').matches,
   }
 }
