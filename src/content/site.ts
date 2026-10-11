@@ -138,11 +138,11 @@ export const work = {
     {
       id: 'renewal-agent',
       fig: 'FIG 1',
-      title: 'An agent that is not allowed to say no',
+      title: 'The agent can say yes. Only a person can say no.',
       org: 'Florida Department of Health',
       context: 'MQA licensing',
       problem:
-        'Automate routine licence renewals for 1.5M+ practitioners without ever letting a model deny one.',
+        'Automating routine licence renewals for 1.5M+ practitioners, without ever letting a model deny one.',
       result: { value: '77%', label: 'of renewals auto-processed' },
       stack: ['Appian', 'Claude Sonnet 4.5', 'AWS Bedrock', 'JSON Schema'],
       size: 'large',
@@ -150,7 +150,7 @@ export const work = {
     {
       id: 'latency',
       fig: 'FIG 2',
-      title: 'Finding where the time went',
+      title: 'One slow system, two hidden culprits',
       org: 'Massachusetts Administration and Finance',
       context: 'Legal case management',
       problem:
@@ -332,19 +332,19 @@ export const projects = {
       note: 'NETWORKQY AI',
     },
     {
-      title: 'Retrieval over a professional graph',
+      title: 'Search that understands what you mean, not just what you typed',
       line: 'RAG over users, skills, companies and jobs: 256-token chunks, top-5 retrieval and cross-encoder reranking, scored on precision and recall.',
       stack: ['Python', 'Pinecone', 'LangChain'],
       note: 'NETWORKQY AI',
     },
     {
-      title: 'Semantic cache on a fine-tuned LLM',
-      line: 'A LoRA fine-tuned Mistral 7B, self-hosted on vLLM, matching repeat queries and answering them locally instead of calling OpenAI.',
-      stack: ['Mistral 7B', 'LoRA', 'vLLM'],
+      title: 'Matching students to the right jobs and mentors',
+      line: 'A recommendation engine pairing profile-embedding similarity with a LightGBM model retrained weekly on new interaction data, ranking job, mentor and connection matches for every user.',
+      stack: ['Python', 'LightGBM', 'Embeddings'],
       note: 'NETWORKQY AI',
     },
     {
-      title: 'Weenix kernel',
+      title: 'Building an operating system from scratch',
       line: 'Processes, threads, a virtual file system and virtual memory for a teaching operating system.',
       stack: ['C', 'QEMU', 'GDB'],
       note: 'USC COURSEWORK, CODE PRIVATE',

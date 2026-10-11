@@ -5,6 +5,7 @@ import { work, type CaseStudy, type CaseStudyId } from '../content/site'
 import { explainers } from '../content/explainers'
 import { LazyExplainer } from '../explainers/LazyExplainer'
 import { getLenis } from '../lib/lenis'
+import { sentenceLines } from '../lib/text'
 
 type Props = { openId: CaseStudyId | null; onClose: () => void; onOpen: (id: CaseStudyId) => void }
 
@@ -107,7 +108,7 @@ function Sheet({ study, onClose, onOpen }: { study: CaseStudy; onClose: () => vo
                 className="max-w-[24ch] font-display text-[clamp(1.9rem,1.3rem+2vw,3rem)] font-medium leading-[1.05] tracking-[-0.035em] text-fg"
                 transition={{ duration: 0.5, ease: EASE }}
               >
-                {study.title}
+                {sentenceLines(study.title)}
               </motion.h2>
 
               <motion.div

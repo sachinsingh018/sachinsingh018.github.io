@@ -13,3 +13,21 @@ export function keepHyphens(text: string): ReactNode {
     ),
   )
 }
+
+/**
+ * Line-breaking for multi-sentence titles: from the sm breakpoint each sentence starts on its own
+ * line, and the last two words of every sentence are kept together so nothing is orphaned.
+ */
+export function sentenceLines(text: string): ReactNode {
+  const sentences = text.split(/(?<=[.?!])\s+/)
+  if (sentences.length < 2) return text
+  return sentences.map((s, i) => {
+    const glued = s.replace(/\s+(\S+)$/, ' $1')
+    return (
+      <span key={i} className="sm:block">
+        {glued}
+        {i < sentences.length - 1 ? ' ' : ''}
+      </span>
+    )
+  })
+}
