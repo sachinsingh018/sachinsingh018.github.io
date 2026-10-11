@@ -32,7 +32,7 @@ function ProjectCard({ p }: { p: Project }) {
   return (
     <article onPointerMove={spot} className="spot-card relative flex h-full flex-col p-5">
       <p className="kicker m-0">{p.note}</p>
-      <h3 className="mt-3 font-display text-lg font-medium leading-snug tracking-[-0.02em] text-fg">
+      <h3 className="mt-3 text-balance font-display text-lg font-medium leading-snug tracking-[-0.02em] text-fg">
         {p.href ? (
           <a href={p.href} target="_blank" rel="noreferrer" className="after:absolute after:inset-0 after:rounded-[inherit] after:content-['']">
             {p.title}

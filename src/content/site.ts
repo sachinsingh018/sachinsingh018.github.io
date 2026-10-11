@@ -138,7 +138,7 @@ export const work = {
     {
       id: 'renewal-agent',
       fig: 'FIG 1',
-      title: 'The agent can say yes. Only a person can say no.',
+      title: 'Automated approvals. Human-only denials.',
       org: 'Florida Department of Health',
       context: 'MQA licensing',
       problem:
@@ -150,7 +150,7 @@ export const work = {
     {
       id: 'latency',
       fig: 'FIG 2',
-      title: 'One slow system, two hidden culprits',
+      title: 'Two root causes, one 70% faster system',
       org: 'Massachusetts Administration and Finance',
       context: 'Legal case management',
       problem:
@@ -332,7 +332,7 @@ export const projects = {
       note: 'NETWORKQY AI',
     },
     {
-      title: 'Search that understands what you mean, not just what you typed',
+      title: 'Search by meaning, not keywords',
       line: 'RAG over users, skills, companies and jobs: 256-token chunks, top-5 retrieval and cross-encoder reranking, scored on precision and recall.',
       stack: ['Python', 'Pinecone', 'LangChain'],
       note: 'NETWORKQY AI',

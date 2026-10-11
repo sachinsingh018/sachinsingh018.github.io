@@ -5,7 +5,6 @@ import { LazyExplainer } from '../explainers/LazyExplainer'
 import { useSpotlight } from '../hooks/useSpotlight'
 import { SectionHeader } from './ui/SectionHeader'
 import { Reveal } from './ui/Reveal'
-import { sentenceLines } from '../lib/text'
 
 type Props = { onOpen: (id: CaseStudy['id']) => void; openId: CaseStudy['id'] | null }
 
@@ -53,12 +52,12 @@ function CaseCard({ study, onOpen, hidden }: { study: CaseStudy; onOpen: Props['
           <motion.h3
             layoutId={`title-${study.id}`}
             id={titleId}
-            className={`mt-3 font-display font-medium tracking-[-0.03em] text-fg ${
+            className={`mt-3 text-balance font-display font-medium tracking-[-0.03em] text-fg ${
               large ? 'text-[clamp(1.6rem,1.2rem+1.4vw,2.35rem)] leading-[1.08]' : 'text-[1.45rem] leading-tight'
             }`}
             transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
           >
-            {sentenceLines(study.title)}
+            {study.title}
           </motion.h3>
           <p className="mt-3 max-w-[38rem] text-muted">{study.problem}</p>
         </div>
